@@ -1,7 +1,3 @@
 summary: Checks whether plan linting works correctly
 
-/execute:
-    test: ./execute.sh
-
-/discover:
-    test: ./discover.sh
+test: ./test.sh

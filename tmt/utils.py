@@ -785,8 +785,8 @@ def verdict(decision, comment=None, good='pass', bad='fail', problem='warn'):
     """
     Return verdict in green or red based on the decision
 
-    0 or False ... bad (red)
-    1 or True .... good (green)
+    0 or False ... good (green)
+    1 or True .... bad (red)
     otherwise .... problem (yellow)
     """
 
@@ -976,6 +976,11 @@ def default_branch(repository, remote='origin'):
 def validate_fmf_id(fmf_id):
     """
     Validate given FMF id and return a human readable error.
+
+    Return a tuple (boolean, message) as the result of validation.
+    The boolean specifies the validation result and the message
+    the validation error. In case the FMF id is valid, return an empty
+    string as the message.
     """
     # validate remote id and translate to human readable errors
     try:

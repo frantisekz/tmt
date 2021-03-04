@@ -10,11 +10,8 @@ import yaml
 import click
 import pprint
 import subprocess
-<<<<<<< HEAD
 import functools
-=======
 import collections
->>>>>>> Improve plan linting
 
 import tmt.steps
 import tmt.utils
@@ -572,27 +569,31 @@ class Plan(Node):
             self._sources()
 
     def _lint_execute(self):
-        # execute is required for a plan
+        """ Lint execute step """
         execute = self.node.get('execute')
         if not execute:
             echo(verdict(0, 'execute step must be defined with "how"'))
             return False
 
         how = execute.get('how')
-        if how not in ['detach', 'tmt']:
+        if how not in tmt.steps.execute.ExecutePlugin.methods():
             echo(verdict(0, f'unsupported execute method "{how}"'))
             return False
 
         return True
 
     def _lint_summary(self):
+        """ Lint summary step """
         # summary is advised with a resonable length
         if self.summary is None:
             echo(verdict(2, 'summary is very useful for quick inspection'))
         elif len(self.summary) > 50:
             echo(verdict(2, 'summary should not exceed 50 characters'))
 
+        return True
+
     def _lint_discover(self):
+        """ Lint discover step """
         # discover step is optional
         discover = self.node.get('discover')
         if not discover:
@@ -607,6 +608,7 @@ class Plan(Node):
 
     @staticmethod
     def _lint_discover_fmf(discover):
+        """ Lint fmf discover method """
         # default to `None` for non-existing keys
         fmf_id = collections.defaultdict(lambda: None, {
             key: value for key, value in discover.items()
@@ -631,10 +633,8 @@ class Plan(Node):
         """
         self.ls()
 
-        # checks not affecting the verdict
-        self._lint_summary()
-
         return all([
+            self._lint_summary(),
             self._lint_execute(),
             self._lint_discover()])
 
