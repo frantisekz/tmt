@@ -353,10 +353,10 @@ class Test(Node):
             valid = False
 
         # Check test, path and summary
-        echo(verdict(self.test is not None, 'test script must be defined'))
-        echo(verdict(stripped_path.startswith('/'),
+        echo(verdict(self.test is None, 'test script must be defined'))
+        echo(verdict(not stripped_path.startswith('/'),
                      'directory path must be absolute'))
-        echo(verdict(os.path.exists(test_path), 'directory path must exist'))
+        echo(verdict(not os.path.exists(test_path), 'directory path must exist'))
         if self.summary is None:
             echo(verdict(2, 'summary is very useful for quick inspection'))
         elif len(self.summary) > 50:
@@ -373,7 +373,7 @@ class Test(Node):
                 self.write(filename, tmt.utils.dict_to_yaml(metadata))
                 echo(verdict(2, 'relevancy converted into adjust'))
             else:
-                echo(verdict(0, 'relevancy has been obsoleted by adjust'))
+                echo(verdict(1, 'relevancy has been obsoleted by adjust'))
                 valid = False
 
         return valid
@@ -575,7 +575,7 @@ class Plan(Node):
         """
         self.ls()
         execute = self.node.get('execute')
-        echo(verdict(execute is not None, 'execute step must be defined'))
+        echo(verdict(execute is None, 'execute step must be defined'))
         if self.summary is None:
             echo(verdict(2, 'summary is very useful for quick inspection'))
         elif len(self.summary) > 50:

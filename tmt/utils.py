@@ -785,15 +785,15 @@ def verdict(decision, comment=None, good='pass', bad='fail', problem='warn'):
     """
     Return verdict in green or red based on the decision
 
-    0 or False ... good (green)
-    1 or True .... bad (red)
+    0 or True .... good (green)
+    1 or False ... bad (red)
     otherwise .... problem (yellow)
     """
 
-    if decision == 0:
-        text = style(bad, fg='red')
-    elif decision == 1:
+    if decision is True or decision == 0:
         text = style(good, fg='green')
+    elif decision is False or decision == 1:
+        text = style(bad, fg='red')
     else:
         text = style(problem, fg='yellow')
     if comment:
