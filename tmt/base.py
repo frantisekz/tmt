@@ -575,6 +575,9 @@ class Plan(Node):
             echo(verdict(0, 'execute step must be defined with "how"'))
             return False
 
+        # explore all available plugins
+        tmt.plugins.explore()
+
         how = execute.get('how')
         if how not in tmt.steps.execute.ExecutePlugin.methods():
             echo(verdict(0, f'unsupported execute method "{how}"'))
