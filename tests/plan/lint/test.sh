@@ -7,7 +7,6 @@ rlJournalStart
         rlRun "pushd data"
         rlRun "set -o pipefail"
         rlRun "tmt init"
-        rlRun "tmt plan create --template mini good"
     rlPhaseEnd
 
     rlPhaseStartTest "Good"

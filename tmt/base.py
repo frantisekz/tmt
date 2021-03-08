@@ -575,11 +575,12 @@ class Plan(Node):
             echo(verdict(0, 'execute step must be defined with "how"'))
             return False
 
-        # explore all available plugins
-        tmt.plugins.explore()
-
         how = execute.get('how')
-        if how not in tmt.steps.execute.ExecutePlugin.methods():
+        methods = [
+            method.name
+            for method in tmt.steps.execute.ExecutePlugin.methods()]
+
+        if how not in methods:
             echo(verdict(0, f'unsupported execute method "{how}"'))
             return False
 
@@ -603,7 +604,11 @@ class Plan(Node):
             return True
 
         how = discover.get('how')
-        if how not in ['fmf', 'shell']:
+        methods = [
+            method.name
+            for method in tmt.steps.discover.DiscoverPlugin.methods()]
+
+        if how not in methods:
             echo(verdict(0, f'unknown discover method "{how}"'))
             return False
 
@@ -635,6 +640,9 @@ class Plan(Node):
         Return whether the plan is valid.
         """
         self.ls()
+
+        # explore all available plugins
+        tmt.plugins.explore()
 
         return all([
             self._lint_summary(),
