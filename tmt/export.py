@@ -65,7 +65,7 @@ def export_to_nitrate(test, create, general):
     summary = (test._metadata.get('extra-summary')
         or test._metadata.get('extra-task')
         or test.summary
-        or ''
+        or test.name
         )
     if summary:
         nitrate_case.summary = summary
@@ -223,7 +223,7 @@ def create_nitrate_case(test):
         category = 'Sanity'
 
     # Create the new test case
-    remote_dirname = os.path.basename(test.fmf_id['url'])
+    remote_dirname = re.sub('.git$', '', os.path.basename(var['url']))
     if not remote_dirname:
         raise ConvertError("Unable to find git remote url.")
     summary = test.node.get('extra-summary', remote_dirname + test.name + ' - '
