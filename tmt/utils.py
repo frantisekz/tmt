@@ -786,8 +786,8 @@ def verdict(decision, comment=None, good='pass', bad='fail', problem='warn'):
     """
     Return verdict in green or red based on the decision
 
-    0 or False ... good (green)
-    1 or True .... bad (red)
+    0 or False .... bad (red)
+    1 or True ... good (green)
     otherwise .... problem (yellow)
     """
 
